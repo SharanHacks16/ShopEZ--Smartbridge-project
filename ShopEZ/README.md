@@ -1,72 +1,182 @@
 # ShopEZ
 
-ShopEZ is a full-stack MERN stock trading simulation platform. Users can browse markets, buy and sell stocks with virtual money, review portfolios and transactions, while admins manage stocks, users, and trades.
+ShopEZ is a full-stack stock trading simulation platform built with the MERN stack. It lets users explore a mock stock market, manage a virtual portfolio, view transaction history, and track performance, while admins can manage users, stocks, and trading activity.
+
+## Features
+
+- User authentication and role-based access
+- Landing page, login, registration, and password recovery flow
+- Market browsing and stock detail views
+- Virtual buying and selling of stocks
+- Portfolio dashboard with wallet balance and holdings
+- Transaction history and user activity tracking
+- Admin dashboard for monitoring stats and managing users, stocks, and transactions
+- Responsive UI with Bootstrap and modern React pages
 
 ## Tech Stack
 
-React, React Router DOM, Bootstrap 5, Chart.js, Axios, Node.js, Express, MongoDB, Mongoose, JWT, bcryptjs, Helmet, Morgan, Express Validator.
+### Frontend
+- React
+- React Router DOM
+- Vite
+- Bootstrap 5
+- Chart.js and react-chartjs-2
+- Axios
+- React Toastify
 
-## Quick Start
+### Backend
+- Node.js
+- Express.js
+- MongoDB with Mongoose
+- JWT authentication
+- bcryptjs for password hashing
+- Helmet, CORS, rate limiting, sanitization, and validation middleware
 
-1. Install MongoDB locally or create a MongoDB Atlas database.
-2. Copy server/.env.example to server/.env and update values.
-3. Install dependencies:
+## Project Structure
 
-\`\`\`bash
-npm install --prefix server
+```text
+ShopEZ/
+├── client/
+│   ├── public/
+│   ├── src/
+│   │   ├── assets/
+│   │   ├── components/
+│   │   ├── context/
+│   │   ├── hooks/
+│   │   ├── layouts/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   ├── utils/
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   ├── package.json
+│   ├── vite.config.js
+│   └── index.html
+├── server/
+│   ├── config/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   ├── seed/
+│   ├── services/
+│   ├── utils/
+│   ├── app.js
+│   ├── server.js
+│   └── package.json
+├── package.json
+└── README.md
+```
+
+## Prerequisites
+
+Before running the project, make sure you have:
+- Node.js 18+ installed
+- npm installed
+- MongoDB running locally or a MongoDB Atlas connection string
+
+## Installation
+
+1. Clone the repository
+2. Install root dependencies
+3. Install client and server dependencies
+
+```bash
+npm install
 npm install --prefix client
-\`\`\`
-
-4. Seed demo data:
-
-\`\`\`bash
-npm run seed --prefix server
-\`\`\`
-
-5. Run the apps:
-
-\`\`\`bash
-npm run dev --prefix server
-npm run dev --prefix client
-\`\`\`
-
-Frontend: http://localhost:5173  
-Backend: http://localhost:5000
-
-## Demo Accounts
-
-Admin: admin@shopez.com / Admin@123  
-User: user@shopez.com / User@123
+npm install --prefix server
+```
 
 ## Environment Variables
 
-See server/.env.example.
+Create a file named `.env` inside the server folder and add the following values:
 
-## API Overview
+```env
+PORT=5000
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
+JWT_EXPIRES_IN=7d
+CLIENT_URL=http://localhost:5173
+STOCK_API_KEY=optional
+```
 
+> The app is already configured to use the existing server environment file in this workspace, but you can replace it with your own values.
+
+## Running the Application
+
+### Start the backend
+
+```bash
+npm run dev --prefix server
+```
+
+### Start the frontend
+
+```bash
+npm run dev --prefix client
+```
+
+The app will be available at:
+- Frontend: http://localhost:5173
+- Backend: http://localhost:5000
+
+## Seed Demo Data
+
+To populate the database with sample users, stocks, portfolios, and transactions:
+
+```bash
+npm run seed --prefix server
+```
+
+This creates demo accounts such as:
+- Admin: admin@shopez.com / Admin@123
+- User: user@shopez.com / User@123
+
+## Main API Endpoints
+
+### Authentication
 - POST /api/auth/register
 - POST /api/auth/login
 - GET /api/auth/profile
 - PUT /api/auth/profile
 - PATCH /api/auth/change-password
+
+### Stocks
 - GET /api/stocks
 - GET /api/stocks/:id
 - POST /api/stocks
 - PUT /api/stocks/:id
 - DELETE /api/stocks/:id
+
+### Portfolio and Transactions
 - GET /api/portfolio
 - POST /api/portfolio/buy
 - POST /api/portfolio/sell
 - GET /api/transactions
+
+### Dashboard and Admin
 - GET /api/dashboard
 - GET /api/admin/stats
 - GET /api/admin/users
 - PATCH /api/admin/users/:id/status
 
+## Development Notes
+
+- The frontend uses lazy-loaded pages for better performance.
+- The backend uses modular route, controller, and middleware structure.
+- The app includes protected routes for authenticated users and admin-only routes.
+- Demo data is seeded through the server seed script.
+
 ## Deployment
 
-Deploy the client to Vercel or Netlify with VITE_API_URL pointing to the API URL. Deploy the server to Render or Railway with MongoDB Atlas and the environment variables from server/.env.example.
+You can deploy the app in two parts:
+- Frontend: Vite app can be hosted on Vercel or Netlify
+- Backend: Express server can be hosted on Render, Railway, or similar services
+
+Make sure to configure the production environment variables and update the client API URL to point to the deployed backend.
 
 ## Screenshots
 
-Add screenshots for landing, dashboard, stock details, portfolio, transaction history, and admin dashboard after deployment.
+Add screenshots for the landing page, dashboard, stock details, portfolio, transaction history, and admin dashboard after deployment or local testing.
+
+s
