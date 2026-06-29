@@ -1,0 +1,2 @@
+import { Link } from 'react-router-dom';
+export default function ForgotPassword() { return <div className="auth-page"><div className="auth-card"><h2>Forgot Password</h2><p className="text-muted">Password recovery UI is ready for an email provider integration. For the demo, use the seeded accounts from the README.</p><input className="form-control" type="email" placeholder="Email address" /><button className="btn btn-primary w-100">Send reset link</button><Link to="/login">Back to login</Link></div></div>; }

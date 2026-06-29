@@ -1,0 +1,11 @@
+import axios from 'axios';
+const api = axios.create({ baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api' });
+api.interceptors.request.use((config) => { const token = localStorage.getItem('shopezToken'); if (token) config.headers.Authorization = 'Bearer ' + token; return config; });
+api.interceptors.response.use((res) => res.data, (error) => Promise.reject(error.response?.data || { message: error.message }));
+export default api;
+export const authAPI = { register: (data) => api.post('/auth/register', data), login: (data) => api.post('/auth/login', data), profile: () => api.get('/auth/profile'), update: (data) => api.put('/auth/profile', data), changePassword: (data) => api.patch('/auth/change-password', data) };
+export const stockAPI = { list: (params) => api.get('/stocks', { params }), get: (id) => api.get('/stocks/' + id), create: (data) => api.post('/stocks', data), update: (id, data) => api.put('/stocks/' + id, data), remove: (id) => api.delete('/stocks/' + id), refresh: () => api.post('/stocks/refresh') };
+export const portfolioAPI = { get: () => api.get('/portfolio'), buy: (data) => api.post('/portfolio/buy', data), sell: (data) => api.post('/portfolio/sell', data) };
+export const transactionAPI = { list: (params) => api.get('/transactions', { params }), updateStatus: (id, status) => api.patch('/transactions/' + id + '/status', { status }), remove: (id) => api.delete('/transactions/' + id) };
+export const dashboardAPI = { user: () => api.get('/dashboard'), admin: () => api.get('/admin/stats') };
+export const userAPI = { list: (params) => api.get('/users', { params }), update: (id, data) => api.put('/users/' + id, data), status: (id, isActive) => api.patch('/users/' + id + '/status', { isActive }), remove: (id) => api.delete('/users/' + id) };

@@ -1,0 +1,12 @@
+import express from 'express';
+import { body } from 'express-validator';
+import { changePassword, getProfile, login, register, updateProfile } from '../controllers/authController.js';
+import { protect } from '../middleware/authMiddleware.js';
+import { validate } from '../middleware/validate.js';
+const router = express.Router();
+router.post('/register', [body('name').trim().isLength({ min: 2 }).withMessage('Name is required'), body('email').isEmail().withMessage('Valid email is required'), body('password').isStrongPassword({ minLength: 6, minSymbols: 0 }).withMessage('Password must include upper, lower and number')], validate, register);
+router.post('/login', [body('email').isEmail(), body('password').notEmpty()], validate, login);
+router.get('/profile', protect, getProfile);
+router.put('/profile', protect, updateProfile);
+router.patch('/change-password', protect, [body('currentPassword').notEmpty(), body('newPassword').isStrongPassword({ minLength: 6, minSymbols: 0 })], validate, changePassword);
+export default router;

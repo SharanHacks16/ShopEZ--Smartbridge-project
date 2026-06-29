@@ -1,0 +1,3 @@
+import { Link } from 'react-router-dom';
+import { money, percent, compact } from '../utils/formatters.js';
+export default function StockCard({ stock }) { const change = stock.changePercent ?? ((stock.currentPrice - stock.previousClose) / stock.previousClose * 100); return <Link to={'/stocks/' + stock._id} className="stock-card"><div className="d-flex align-items-center gap-3"><img src={stock.logo} alt="" /><div><strong>{stock.symbol}</strong><p>{stock.companyName}</p></div></div><div className="mt-3 d-flex justify-content-between"><span>{money(stock.currentPrice)}</span><b className={change >= 0 ? 'text-success' : 'text-danger'}>{percent(change)}</b></div><small>Vol {compact(stock.volume)}</small></Link>; }

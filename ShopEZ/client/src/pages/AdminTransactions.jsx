@@ -1,0 +1,7 @@
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import DataTable from '../components/DataTable.jsx';
+import Loader from '../components/Loader.jsx';
+import { transactionAPI } from '../services/api.js';
+import { money } from '../utils/formatters.js';
+export default function AdminTransactions() { const [data, setData] = useState(null); const load = async () => setData((await transactionAPI.list({ limit: 100 })).data); useEffect(() => { load(); }, []); const status = async (r, value) => { await transactionAPI.updateStatus(r._id, value); toast.success('Status updated'); load(); }; const remove = async (r) => { if (!confirm('Delete transaction?')) return; await transactionAPI.remove(r._id); toast.success('Deleted'); load(); }; if (!data) return <Loader />; return <div className="page"><h1>Admin Transactions</h1><DataTable rows={data.transactions} columns={[{key:'user',label:'User',render:(r)=>r.user?.email},{key:'stock',label:'Stock',render:(r)=>r.stock?.symbol},{key:'buyOrSell',label:'Type'},{key:'quantity',label:'Qty'},{key:'totalAmount',label:'Amount',render:(r)=>money(r.totalAmount)},{key:'status',label:'Status'},{key:'actions',label:'Actions',render:(r)=><div className="btn-group"><button className="btn btn-sm btn-outline-success" onClick={()=>status(r,'approved')}>Approve</button><button className="btn btn-sm btn-outline-warning" onClick={()=>status(r,'rejected')}>Reject</button><button className="btn btn-sm btn-outline-danger" onClick={()=>remove(r)}>Delete</button></div>}]} /></div>; }

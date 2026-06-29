@@ -1,0 +1,13 @@
+import express from 'express';
+import { adminStats } from '../controllers/dashboardController.js';
+import { authorize, protect } from '../middleware/authMiddleware.js';
+import userRoutes from './userRoutes.js';
+import stockRoutes from './stockRoutes.js';
+import transactionRoutes from './transactionRoutes.js';
+const router = express.Router();
+router.use(protect, authorize('admin'));
+router.get('/stats', adminStats);
+router.use('/users', userRoutes);
+router.use('/stocks', stockRoutes);
+router.use('/transactions', transactionRoutes);
+export default router;

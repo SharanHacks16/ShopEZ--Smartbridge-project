@@ -1,0 +1,14 @@
+import express from 'express';
+import { body } from 'express-validator';
+import { authorize, protect } from '../middleware/authMiddleware.js';
+import { validate } from '../middleware/validate.js';
+import { createStock, deleteStock, getStock, getStocks, refreshPrices, updateStock } from '../controllers/stockController.js';
+const router = express.Router();
+const stockValidation = [body('symbol').trim().notEmpty(), body('companyName').trim().notEmpty(), body('currentPrice').isFloat({ min: 0 }), body('previousClose').isFloat({ min: 0 }), body('marketCap').isFloat({ min: 0 }), body('sector').notEmpty(), body('description').notEmpty(), body('dailyHigh').isFloat({ min: 0 }), body('dailyLow').isFloat({ min: 0 }), body('volume').isInt({ min: 0 })];
+router.get('/', getStocks);
+router.post('/refresh', protect, refreshPrices);
+router.get('/:id', getStock);
+router.post('/', protect, authorize('admin'), stockValidation, validate, createStock);
+router.put('/:id', protect, authorize('admin'), updateStock);
+router.delete('/:id', protect, authorize('admin'), deleteStock);
+export default router;

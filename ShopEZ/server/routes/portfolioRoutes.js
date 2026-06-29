@@ -1,0 +1,11 @@
+import express from 'express';
+import { body } from 'express-validator';
+import { buy, getPortfolio, sell } from '../controllers/portfolioController.js';
+import { protect } from '../middleware/authMiddleware.js';
+import { validate } from '../middleware/validate.js';
+const router = express.Router();
+router.use(protect);
+router.get('/', getPortfolio);
+router.post('/buy', [body('stockId').isMongoId(), body('quantity').isInt({ min: 1 })], validate, buy);
+router.post('/sell', [body('stockId').isMongoId(), body('quantity').isInt({ min: 1 })], validate, sell);
+export default router;

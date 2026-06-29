@@ -1,0 +1,4 @@
+import { buyStock, getOrCreatePortfolio, recalculatePortfolio, sellStock } from '../services/portfolioService.js';
+export const getPortfolio = async (req, res, next) => { try { const portfolio = await getOrCreatePortfolio(req.user._id); res.json({ success: true, data: await recalculatePortfolio(portfolio) }); } catch (error) { next(error); } };
+export const buy = async (req, res, next) => { try { const portfolio = await buyStock(req.user._id, req.body.stockId, req.body.quantity); res.status(201).json({ success: true, message: 'Stock purchased successfully', data: portfolio }); } catch (error) { res.status(400); next(error); } };
+export const sell = async (req, res, next) => { try { const portfolio = await sellStock(req.user._id, req.body.stockId, req.body.quantity); res.status(201).json({ success: true, message: 'Stock sold successfully', data: portfolio }); } catch (error) { res.status(400); next(error); } };
